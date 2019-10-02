@@ -1,4 +1,5 @@
 # BluStat
+![Travis CI](https://travis-ci.org/ryanjokuti/BluStat.svg?branch=master)
 An app that can give you info on your bluetooth devices
 
 ## Requirements
