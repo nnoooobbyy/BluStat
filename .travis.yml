@@ -12,3 +12,5 @@ android:
 
     # The SDK version used to compile your project
     - android-29
+before_install:
+  - chmod +x gradlew
