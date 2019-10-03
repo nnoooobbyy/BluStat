@@ -1,15 +1,14 @@
 package com.example.blustat
 
 import android.app.IntentService;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothProfile
 import android.content.Intent
+import android.util.Log
 
-
-
-
+private const val TAG = "StatService"
 
 class StatService {
     var mBluetoothHeadset: BluetoothHeadset? = null
@@ -29,7 +28,7 @@ class StatService {
 
     fun onHandleIntent(intent: Intent) {
         try {
-            println("BlueLag: Bluetooth headset connection: " + isBluetoothHeadsetConnected())
+            Log.i(TAG,"BlueLag: Bluetooth headset connection: " + isBluetoothHeadsetConnected())
             // Proxy setup
             val mProfileListener = object : BluetoothProfile.ServiceListener {
                 override fun onServiceConnected(profile: Int, proxy: BluetoothProfile) {
@@ -50,8 +49,8 @@ class StatService {
             if (mBluetoothHeadset != null) {
                 val headsetList = mBluetoothHeadset!!.getConnectedDevices()
                 for (i in headsetList.indices) {
-                    println("BlueLag: Headset connection: " + headsetList[i].name)
-                    println("BlueLag: Delay: " + bluetoothDelay(headsetList[i]) + "ms")
+                    Log.i(TAG,"BlueLag: Headset connection: " + headsetList[i].name)
+                    Log.i(TAG,"BlueLag: Delay: " + bluetoothDelay(headsetList[i]) + "ms")
                     DeviceIndexing.latencyAppend(headsetList[i].name, bluetoothDelay(headsetList[i]))
                 }
             }
