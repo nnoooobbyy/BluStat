@@ -1,28 +1,42 @@
 package com.example.blustat
 
-import android.app.IntentService;
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothHeadset
-import android.bluetooth.BluetoothProfile
-import android.content.Intent
+import android.bluetooth.*
 import android.util.Log
 
 // Vars
-private const val TAG = "StatService"
+private const val TAG = "StatRetrieval"
 
-class StatService {
+// List of functions to get certain stats from a Bluetooth device
+object StatRetrieval {
     // Checks for a delay from device to Bluetooth device
     fun bluetoothDelay(device: BluetoothDevice): Long {
+        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
         val startTime = System.currentTimeMillis()
         device.fetchUuidsWithSdp()
         val endTime = System.currentTimeMillis()
-        return endTime - startTime
+        return (endTime - startTime)
     }
 
     fun bluetoothBasicInfo(device: BluetoothDevice) {
-        val uuidList = device.uuids
-        val deviceType = device.type
-        val deviceBattery = device.
+        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
+        val deviceName = device.name
+        val deviceUUID = device.uuids[0].toString()
+        val deviceAddress = device.address
+        val deviceClass = device.bluetoothClass.majorDeviceClass
+        var deviceType = "Typeless"
+        when (deviceClass) {
+            BluetoothClass.Device.Major.AUDIO_VIDEO -> deviceType = "Audio video"
+            BluetoothClass.Device.Major.COMPUTER -> deviceType = "Computer"
+            BluetoothClass.Device.Major.HEALTH -> deviceType = "Health"
+            BluetoothClass.Device.Major.IMAGING -> deviceType = "Imaging"
+            BluetoothClass.Device.Major.MISC -> deviceType = "Miscellaneous"
+            BluetoothClass.Device.Major.NETWORKING -> deviceType = "Networking"
+            BluetoothClass.Device.Major.PERIPHERAL -> deviceType = "Peripheral"
+            BluetoothClass.Device.Major.PHONE -> deviceType = "Phone"
+            BluetoothClass.Device.Major.TOY -> deviceType = "Toy"
+            BluetoothClass.Device.Major.UNCATEGORIZED -> deviceType = "Uncategorized"
+            BluetoothClass.Device.Major.WEARABLE -> deviceType = "Wearable"
+        }
+        return((deviceName, deviceUUID, deviceAddress, deviceType))
     }
 }
