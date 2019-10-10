@@ -14,3 +14,6 @@ android:
     - android-29
 before_install:
   - chmod +x gradlew
+
+script:
+      - ./gradlew clean testDebug lintDebug -s --scan

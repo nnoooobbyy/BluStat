@@ -46,6 +46,6 @@ class MainActivity : AppCompatActivity() {
     fun displayService() {
         Log.i(TAG, "Currently running on " + Thread.currentThread().name)
         val currentDevice = DeviceIndexing.deviceIndex()[0]
-        val () = StatRetrieval.bluetoothBasicInfo(currentDevice)
+        val currentDeviceInfo = StatRetrieval.bluetoothBasicInfo(currentDevice)
     }
 }

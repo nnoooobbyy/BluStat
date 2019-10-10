@@ -17,8 +17,9 @@ object StatRetrieval {
         return (endTime - startTime)
     }
 
-    fun bluetoothBasicInfo(device: BluetoothDevice) {
+    fun bluetoothBasicInfo(device: BluetoothDevice): Array<String> {
         Log.i(TAG, "Currently running on " + Thread.currentThread().name)
+        // Basic info of the device connected
         val deviceName = device.name
         val deviceUUID = device.uuids[0].toString()
         val deviceAddress = device.address
@@ -37,6 +38,10 @@ object StatRetrieval {
             BluetoothClass.Device.Major.UNCATEGORIZED -> deviceType = "Uncategorized"
             BluetoothClass.Device.Major.WEARABLE -> deviceType = "Wearable"
         }
-        return((deviceName, deviceUUID, deviceAddress, deviceType))
+
+        // Because of how we are returning data, this array will be returned for passing all our data
+        val deviceStats = arrayOf(deviceName, deviceUUID, deviceAddress, deviceType)
+
+        return(deviceStats)
     }
 }
