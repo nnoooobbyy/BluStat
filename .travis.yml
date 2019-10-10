@@ -16,4 +16,4 @@ before_install:
   - chmod +x gradlew
 
 script:
-      - ./gradlew clean testDebug lintDebug -s --scan
+      - ./gradlew clean testDebug lintDebug --info
