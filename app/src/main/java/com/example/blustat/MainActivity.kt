@@ -1,11 +1,13 @@
 package com.example.blustat
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.widget.Toast
+import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 // Vars
 private const val TAG = "MainActivity"
@@ -19,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "Currently running on " + Thread.currentThread().name)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkBluetoothCompatibility()
+        val textDeviceView: TextView = findViewById(R.id.textDeviceView)
+    }
+
+    fun checkBluetoothCompatibility(){
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         // Check if device supports Bluetooth
         if (mBluetoothAdapter != null) {
@@ -33,19 +40,20 @@ class MainActivity : AppCompatActivity() {
                 // Ask to enable Bluetooth
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startActivityForResult(enableBtIntent, 2)
-                onCreate(savedInstanceState)
             }
         } else {
             // Inform the user that Bluetooth isn't supported
+            textDeviceView.text = resources.getString(R.string.unsupported_device)
             Log.e(TAG, "mBluetoothAdapter : Device does not support Bluetooth")
             Toast.makeText(applicationContext, "This device does not support Bluetooth", Toast.LENGTH_LONG).show()
         }
     }
-
     // Display service
     fun displayService() {
         Log.i(TAG, "Currently running on " + Thread.currentThread().name)
         val currentDevice = DeviceIndexing.deviceIndex()[0]
         val currentDeviceInfo = StatRetrieval.bluetoothBasicInfo(currentDevice)
+
+        textDeviceView.text = ("Connected to $currentDevice")
     }
 }
