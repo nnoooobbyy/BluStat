@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,9 +24,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         checkBluetoothCompatibility()
         val textDeviceView: TextView = findViewById(R.id.textDeviceView)
+        val textPlaceholderDeviceInfo: TextView = findViewById(R.id.textPlaceholderDeviceInfo)
     }
 
-    fun checkBluetoothCompatibility(){
+    // This check to run though compatibility testing for a bluetooth device
+    private fun checkBluetoothCompatibility(){
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         // Check if device supports Bluetooth
         if (mBluetoothAdapter != null) {
@@ -48,12 +51,17 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "This device does not support Bluetooth", Toast.LENGTH_LONG).show()
         }
     }
-    // Display service
+
+    // Display service for displaying information
     fun displayService() {
         Log.i(TAG, "Currently running on " + Thread.currentThread().name)
         val currentDevice = DeviceIndexing.deviceIndex()[0]
         val currentDeviceInfo = StatRetrieval.bluetoothBasicInfo(currentDevice)
 
+        // User end of viewing data
+        textPlaceholderDeviceInfo.visibility = View.VISIBLE
         textDeviceView.text = ("Connected to $currentDevice")
+        textPlaceholderDeviceInfo.text = ("$currentDeviceInfo")
+        Log.i(TAG, "displayService : Displaying device info for $currentDevice")
     }
 }
