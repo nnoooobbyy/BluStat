@@ -20,8 +20,6 @@ object StatRetrieval {
 
     /* REDUNDANT
     fun bluetoothBasicInfo(device: BluetoothDevice): BluetoothDevice {
-        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
-        Log.i(TAG, "Currently getting info on " + device.name)
         val currentDevice = BluetoothDevice()
         try {
             currentDevice.name = device.name
