@@ -8,35 +8,42 @@ private const val TAG = "StatRetrieval"
 
 // List of functions to get certain stats from a Bluetooth device
 object StatRetrieval {
-    // Checks for a delay from device to Bluetooth device
-    fun bluetoothDelay(device: BluetoothDevice): Long {
-        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
+
+    // Checks the ping from device to Bluetooth device by asking the Bluetooth device for its UUID
+    fun bluetoothPing(device: BluetoothDevice): Long {
+        Log.i(TAG, "Currently running function bluetoothPing on " + Thread.currentThread().name)
         val startTime = System.currentTimeMillis()
         device.fetchUuidsWithSdp()
         val endTime = System.currentTimeMillis()
         return (endTime - startTime)
     }
 
-    fun bluetoothBasicInfo(device: BluetoothDevice) {
+    /* REDUNDANT
+    fun bluetoothBasicInfo(device: BluetoothDevice): BluetoothDevice {
         Log.i(TAG, "Currently running on " + Thread.currentThread().name)
-        val deviceName = device.name
-        val deviceUUID = device.uuids[0].toString()
-        val deviceAddress = device.address
-        val deviceClass = device.bluetoothClass.majorDeviceClass
-        var deviceType = "Typeless"
-        when (deviceClass) {
-            BluetoothClass.Device.Major.AUDIO_VIDEO -> deviceType = "Audio video"
-            BluetoothClass.Device.Major.COMPUTER -> deviceType = "Computer"
-            BluetoothClass.Device.Major.HEALTH -> deviceType = "Health"
-            BluetoothClass.Device.Major.IMAGING -> deviceType = "Imaging"
-            BluetoothClass.Device.Major.MISC -> deviceType = "Miscellaneous"
-            BluetoothClass.Device.Major.NETWORKING -> deviceType = "Networking"
-            BluetoothClass.Device.Major.PERIPHERAL -> deviceType = "Peripheral"
-            BluetoothClass.Device.Major.PHONE -> deviceType = "Phone"
-            BluetoothClass.Device.Major.TOY -> deviceType = "Toy"
-            BluetoothClass.Device.Major.UNCATEGORIZED -> deviceType = "Uncategorized"
-            BluetoothClass.Device.Major.WEARABLE -> deviceType = "Wearable"
+        Log.i(TAG, "Currently getting info on " + device.name)
+        val currentDevice = BluetoothDevice()
+        try {
+            currentDevice.name = device.name
+            currentDevice.UUID = device.uuids[0].toString()
+            currentDevice.address = device.address
+            when (device.bluetoothClass.majorDeviceClass) {
+                BluetoothClass.Device.Major.AUDIO_VIDEO -> currentDevice.type = "Audio video"
+                BluetoothClass.Device.Major.COMPUTER -> currentDevice.type = "Computer"
+                BluetoothClass.Device.Major.HEALTH -> currentDevice.type = "Health"
+                BluetoothClass.Device.Major.IMAGING -> currentDevice.type = "Imaging"
+                BluetoothClass.Device.Major.MISC -> currentDevice.type = "Miscellaneous"
+                BluetoothClass.Device.Major.NETWORKING -> currentDevice.type = "Networking"
+                BluetoothClass.Device.Major.PERIPHERAL -> currentDevice.type = "Peripheral"
+                BluetoothClass.Device.Major.PHONE -> currentDevice.type = "Phone"
+                BluetoothClass.Device.Major.TOY -> currentDevice.type = "Toy"
+                BluetoothClass.Device.Major.UNCATEGORIZED -> currentDevice.type = "Uncategorized"
+                BluetoothClass.Device.Major.WEARABLE -> currentDevice.type = "Wearable"
+            }
+        } catch (e: NullPointerException) {
+            Log.w(TAG, "NullPointerException thrown")
         }
-        return((deviceName, deviceUUID, deviceAddress, deviceType))
+        return (device)
     }
+     */
 }

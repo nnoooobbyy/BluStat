@@ -1,10 +1,10 @@
 package com.example.blustat
 
 import android.bluetooth.*
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.util.Log
-import android.widget.Toast;
+import android.bluetooth.BluetoothDevice
+
+
 
 // Vars
 private const val TAG = "DeviceIndexing"
@@ -14,14 +14,28 @@ object DeviceIndexing {
     // Vars
     private val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
+    // Checks to see if a Bluetooth device is connected
+    fun isConnected(device: BluetoothDevice): Boolean {
+        Log.i(TAG, "Currently running function isConnected on " + Thread.currentThread().name)
+        try {
+            val m = device.javaClass.getMethod("isConnected")
+            return m.invoke(device) as Boolean
+        } catch (e: Exception) {
+            Log.w(TAG, "Exception thrown:  $e")
+            throw IllegalStateException(e)
+        }
+
+    }
+
+    // Gets all bonded Bluetooth devices and adds them into a list if they're connected
     fun deviceIndex(): MutableList<BluetoothDevice> {
-        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
+        Log.i(TAG, "Currently running function deviceIndex on " + Thread.currentThread().name)
         val connectedDevices = mutableListOf<BluetoothDevice>()
         try {
             val bondedDevices = mBluetoothAdapter.bondedDevices
             if (bondedDevices != null) {
                 for (device in bondedDevices) {
-                    if(device.address != null) {
+                    if(isConnected((device))) {
                         connectedDevices.add(device)
                         Log.i(TAG, device.name + " added to connectedDevices list.")
                     } else {
@@ -31,6 +45,7 @@ object DeviceIndexing {
             }
         } catch (e: InterruptedException) {
             // Restore interrupt status
+            Log.w(TAG, "Exception thrown:  $e")
             Thread.currentThread().interrupt()
         }
         return connectedDevices

@@ -10,13 +10,16 @@ import android.util.Log
 // Vars
 private const val TAG = "MainActivity"
 
+// Data classes
+//data class Device(var name: String = "None", var UUID: String = "None", var address: String = "None", var type: String = "Typeless")
+
 // Controls what the user sees
 // NO BLUETOOTH FUNCTIONS SHOULD BE CALLED FROM THIS CLASS
 class MainActivity : AppCompatActivity() {
 
     // On start, establishes that the device is using Bluetooth and then moves onto display services
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
+        Log.i(TAG, "Currently running function onCreate on " + Thread.currentThread().name)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -44,8 +47,13 @@ class MainActivity : AppCompatActivity() {
 
     // Display service
     fun displayService() {
-        Log.i(TAG, "Currently running on " + Thread.currentThread().name)
-        val currentDevice = DeviceIndexing.deviceIndex()[0]
-        val () = StatRetrieval.bluetoothBasicInfo(currentDevice)
+        Log.i(TAG, "Currently running function displayService on " + Thread.currentThread().name)
+        val selectedDevice = DeviceIndexing.deviceIndex()[0]
+        val currentPing = StatRetrieval.bluetoothPing(selectedDevice)
+
+        /* REDUNDANT
+        var currentDevice = Device()
+        currentDevice = StatRetrieval.bluetoothBasicInfo(selectedDevice)
+         */
     }
 }
