@@ -16,12 +16,12 @@ object DeviceIndexing {
 
     // Checks to see if a Bluetooth device is connected
     fun isConnected(device: BluetoothDevice): Boolean {
-        Log.i(TAG, "Currently running function isConnected on " + Thread.currentThread().name)
+        Log.i(TAG, "Currently running function isConnected on ${Thread.currentThread().name}")
         try {
             val m = device.javaClass.getMethod("isConnected")
             return m.invoke(device) as Boolean
         } catch (e: Exception) {
-            Log.w(TAG, "Exception thrown:  $e")
+            Log.w(TAG, "Exception thrown: $e")
             throw IllegalStateException(e)
         }
 
@@ -29,7 +29,7 @@ object DeviceIndexing {
 
     // Gets all bonded Bluetooth devices and adds them into a list if they're connected
     fun deviceIndex(): MutableList<BluetoothDevice> {
-        Log.i(TAG, "Currently running function deviceIndex on " + Thread.currentThread().name)
+        Log.i(TAG, "Currently running function deviceIndex on ${Thread.currentThread().name}")
         val connectedDevices = mutableListOf<BluetoothDevice>()
         try {
             val bondedDevices = mBluetoothAdapter.bondedDevices
@@ -45,7 +45,7 @@ object DeviceIndexing {
             }
         } catch (e: InterruptedException) {
             // Restore interrupt status
-            Log.w(TAG, "Exception thrown:  $e")
+            Log.w(TAG, "Exception thrown: $e")
             Thread.currentThread().interrupt()
         }
         return connectedDevices

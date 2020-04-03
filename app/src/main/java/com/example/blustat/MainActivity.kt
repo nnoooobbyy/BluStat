@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     // On start, establishes that the device is using Bluetooth and then moves onto display services
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i(TAG, "Currently running function onCreate on " + Thread.currentThread().name)
+        Log.i(TAG, "Currently running function onCreate on ${Thread.currentThread().name}")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkBluetoothCompatibility()
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     // This check to run though compatibility testing for a bluetooth device
     private fun checkBluetoothCompatibility(){
+        Log.i(TAG, "Currently running function checkBluetoothCompatibility on ${Thread.currentThread().name}")
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         // Check if device supports Bluetooth
         if (mBluetoothAdapter != null) {
@@ -49,21 +50,21 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             // Inform the user that Bluetooth isn't supported
-            textDeviceView.text = resources.getString(R.string.unsupported_device)
             Log.e(TAG, "mBluetoothAdapter : Device does not support Bluetooth")
+            textDeviceView.text = resources.getString(R.string.unsupported_device)
             Toast.makeText(applicationContext, "This device does not support Bluetooth", Toast.LENGTH_LONG).show()
         }
     }
 
     // Display service for displaying information
     fun displayService() {
-        Log.i(TAG, "Currently running function displayService on " + Thread.currentThread().name)
+        Log.i(TAG, "Currently running function displayService on ${Thread.currentThread().name}")
         val selectedDevice = DeviceIndexing.deviceIndex()[0]
         val currentPing = StatRetrieval.bluetoothPing(selectedDevice)
         
         // User end of viewing data
         textPlaceholderDeviceInfo.visibility = View.VISIBLE
-        textDeviceView.text = ("Connected to $selectedDevice")
-        Log.i(TAG, "displayService : Displaying device info for $selectedDevice")
+        textDeviceView.text = ("Connected to ${selectedDevice.name}")
+        Log.i(TAG, "displayService : Displaying device info for ${selectedDevice.name}")
     }
 }
