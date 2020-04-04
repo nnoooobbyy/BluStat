@@ -24,7 +24,6 @@ object DeviceIndexing {
             Log.w(TAG, "Exception thrown: $e")
             throw IllegalStateException(e)
         }
-
     }
 
     // Gets all bonded Bluetooth devices and adds them into a list if they're connected
@@ -37,9 +36,9 @@ object DeviceIndexing {
                 for (device in bondedDevices) {
                     if(isConnected((device))) {
                         connectedDevices.add(device)
-                        Log.i(TAG, device.name + " added to connectedDevices list.")
+                        Log.i(TAG, "${device.name} added to connectedDevices list.")
                     } else {
-                        Log.i(TAG, device.name + " not added to connectedDevices list.")
+                        Log.i(TAG, "${device.name} not added to connectedDevices list.")
                     }
                 }
             }
