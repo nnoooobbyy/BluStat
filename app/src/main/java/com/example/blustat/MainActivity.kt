@@ -9,12 +9,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.NullPointerException
 
 // Vars
 private const val TAG = "MainActivity"
-
-// Data classes
-//data class Device(var name: String = "None", var UUID: String = "None", var address: String = "None", var type: String = "Typeless")
 
 // Controls what the user sees
 // NO BLUETOOTH FUNCTIONS SHOULD BE CALLED FROM THIS CLASS
@@ -36,35 +34,25 @@ class MainActivity : AppCompatActivity() {
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         // Check if device supports Bluetooth
         if (mBluetoothAdapter != null) {
-            Log.i(TAG, "mBluetoothAdapter : Bluetooth supported on the device")
+            Log.i(TAG, "Bluetooth supported on the device")
             // Check if Bluetooth is enabled
             if (mBluetoothAdapter.isEnabled) {
-                Log.i(TAG, "mBluetoothAdapter : Device has Bluetooth enabled")
+                Log.i(TAG, "Device has Bluetooth enabled")
                 // Start info display service
-                displayService()
+                DisplayService.statDisplay()
             } else {
-                Log.w(TAG, "mBluetoothAdapter : Device has Bluetooth disabled")
+                Log.w(TAG, "Device has Bluetooth disabled")
                 // Ask to enable Bluetooth
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startActivityForResult(enableBtIntent, 2)
             }
         } else {
             // Inform the user that Bluetooth isn't supported
-            Log.e(TAG, "mBluetoothAdapter : Device does not support Bluetooth")
+            Log.e(TAG, "Device does not support Bluetooth")
             textDeviceView.text = resources.getString(R.string.unsupported_device)
             Toast.makeText(applicationContext, "This device does not support Bluetooth", Toast.LENGTH_LONG).show()
         }
     }
 
-    // Display service for displaying information
-    fun displayService() {
-        Log.i(TAG, "Currently running function displayService on ${Thread.currentThread().name}")
-        val selectedDevice = DeviceIndexing.deviceIndex()[0]
-        val currentPing = StatRetrieval.bluetoothPing(selectedDevice)
-        
-        // User end of viewing data
-        textPlaceholderDeviceInfo.visibility = View.VISIBLE
-        textDeviceView.text = ("Connected to ${selectedDevice.name}")
-        Log.i(TAG, "displayService : Displaying device info for ${selectedDevice.name}")
-    }
+
 }
