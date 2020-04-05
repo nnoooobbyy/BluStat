@@ -15,7 +15,7 @@ object DeviceIndexing {
     private val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
     // Checks to see if a Bluetooth device is connected
-    fun isConnected(device: BluetoothDevice): Boolean {
+    private fun isConnected(device: BluetoothDevice): Boolean {
         Log.i(TAG, "Currently running function isConnected on ${Thread.currentThread().name}")
         try {
             val m = device.javaClass.getMethod("isConnected")
