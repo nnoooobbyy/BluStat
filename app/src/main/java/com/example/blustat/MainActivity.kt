@@ -24,8 +24,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkBluetoothCompatibility()
-        val textDeviceView: TextView = findViewById(R.id.textDeviceView)
-        val textPlaceholderDeviceInfo: TextView = findViewById(R.id.textPlaceholderDeviceInfo)
+        val textDeviceName: TextView = findViewById(R.id.textDeviceName)
+        val textDeviceUUID: TextView = findViewById(R.id.textDeviceUUID)
+        val textDeviceType: TextView = findViewById(R.id.textDeviceType)
+        val textDeviceBattery: TextView = findViewById(R.id.textDeviceBattery)
+        val textDevicePing: TextView = findViewById(R.id.textDevicePing)
     }
 
     // This check to run though compatibility testing for a bluetooth device
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             if (mBluetoothAdapter.isEnabled) {
                 Log.i(TAG, "Device has Bluetooth enabled")
                 // Start info display service
-                DisplayService.statDisplay()
+                displayService()
             } else {
                 Log.w(TAG, "Device has Bluetooth disabled")
                 // Ask to enable Bluetooth
@@ -49,10 +52,28 @@ class MainActivity : AppCompatActivity() {
         } else {
             // Inform the user that Bluetooth isn't supported
             Log.e(TAG, "Device does not support Bluetooth")
-            textDeviceView.text = resources.getString(R.string.unsupported_device)
+            textDeviceName.text = resources.getString(R.string.unsupported_device)
             Toast.makeText(applicationContext, "This device does not support Bluetooth", Toast.LENGTH_LONG).show()
         }
     }
 
+    // Display service for displaying information
+    fun displayService() {
+        Log.i(TAG, "Currently running function displayService on ${Thread.currentThread().name}")
+        try {
+            // Getting info about the selected Bluetooth device
+            val selectedDevice = DeviceIndexing.deviceIndex()[0]
+            val deviceType = StatRetrieval.getType(selectedDevice)
+            val currentPing = StatRetrieval.getPing(selectedDevice)
 
+            // User end of viewing data
+            textDeviceName.text = ("${selectedDevice.name}")
+            textDeviceUUID.text = ("UUIDs: ${selectedDevice.uuids}")
+            textDeviceType.text = ("Type: $deviceType")
+            textDeviceBattery.text = ("Battery: N/A")
+            textDevicePing.text = ("Ping: $currentPing ms")
+        } catch (e: NullPointerException){
+            Log.w(TAG, "Exception thrown: $e")
+        }
+    }
 }
