@@ -19,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!--
+        <receiver android:name=".DeviceReceiver" >
+            <intent-filter>
+                <action android:name="android.bluetooth.BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        -->
     </application>
 
 </manifest>
