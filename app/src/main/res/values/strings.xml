@@ -3,4 +3,8 @@
     <string name="no_device_connected">No device connected!</string>
     <string name="unsupported_device">This device does not support Bluetooth</string>
     <string name="waiting_for_device">Waiting for device…</string>
+    <string name="device_uuid_null">UUID: N/A</string>
+    <string name="device_type_null">Type: N/A</string>
+    <string name="device_battery_null">Battery: N/A</string>
+    <string name="devive_latency_null">Ping: N/A</string>
 </resources>
